@@ -1,0 +1,21 @@
+.wrapper {
+    overflow-x: scroll;
+}
+
+td {
+    min-width: 100px;
+}
+
+.fixed {
+    position: absolute;
+    background: #aaa;
+}
+
+    // /* Important part */
+    .modal-dialog{
+        overflow-y: initial !important
+    }
+    .modal-body{
+        height: 500px;
+        overflow-y: auto;
+    }   

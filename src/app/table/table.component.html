@@ -1,0 +1,129 @@
+<!--my table-->
+<div class="mt-3 mb-5 container">
+    <!-- Editable table -->
+    <!-- <span class="table-add float-left mb-3 mr-2">
+      <a class="text-dark mr-2" data-toggle="modal" data-target="#Modal"><i class="fa fa-notes-medical fa-3x"></i></a>
+  </span> -->
+      <div id="table" class="table-scroll myTable">
+        
+        
+        <table class="table table-bordered table-striped text-center main-table" style="width: 100%;" id="crud_table">
+          <thead>
+            <tr>
+              <th *ngFor="let vp of vitalParameters" class="text-center">{{vp}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vpd of vitalParameterData; index as i">
+              <th class="pt-3-half">
+                <p>{{vpd.Tijd | date:'short'}}</p>
+                  <span><a class="text-danger" (click)="removeRow(i)"><i class="fa fa-times fa-2x"></i></a></span>
+              </th>
+              <td class="pt-3-half">
+                <select class="custom-select">
+                  <option hidden ng-selected="vpd.Hartritme">{{vpd.Hartritme}}</option>
+                  <option [value]="i" *ngFor="let i of HRRange">{{i}}</option>
+                </select></td>
+              <td class="pt-3-half">
+                <select class="custom-select">
+                    <option hidden ng-selected="vpd.Ademhalingsfrequentie">{{vpd.Ademhalingsfrequentie}}</option>
+                    <option [value]="i" *ngFor="let i of AFRange">{{i}}</option>
+                </select></td>
+              <td class="pt-3-half">
+                <select class="custom-select">
+                    <option hidden ng-selected="vpd.Bloeddruk">{{vpd.Bloeddruk}}</option>
+                    <option [value]="i" *ngFor="let i of BDRange">{{i}}</option>
+                </select>
+              </td>
+              <td class="pt-3-half">
+                <select class="custom-select">
+                    <option hidden ng-selected="vpd.Temperatuur">{{vpd.Temperatuur}}</option>
+                    <option [value]="i" *ngFor="let i of TempRange">{{i}}</option>
+                </select>
+              </td>
+              <td class="pt-3-half">
+                <select class="custom-select">
+                    <option hidden ng-selected="vpd.Pijn">{{vpd.Pijn}}</option>
+                    <option [value]="i" *ngFor="let i of PijnRange">{{i}}</option>
+                </select>
+              </td>
+              <td class="pt-3-half">
+                <select class="custom-select">
+                    <option hidden ng-selected="vpd.Bewustzijn">{{vpd.Bewustzijn}}</option>
+                    <option [value]="i" *ngFor="let i of BewustzijnRange">{{i}}</option>
+                </select>
+              </td>
+              
+            </tr>
+            <tr class="table-success">
+              <th><span><a class="text-success mr-2" (click)="addRow()"><i class="fa fa-plus fa-2x" ></i></a></span></th>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Hartritme">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of HRRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Ademhalingsfrequentie">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of AFRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Bloeddruk">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of BDRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Temperatuur">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of TempRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Pijn">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of PijnRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Bewustzijn">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of BewustzijnRange">{{i}}</option>
+                    </select>
+                </td>
+                
+                
+            </tr>
+          </tbody>
+        </table>       
+      </div>
+</div>
+
+
+
+<!--MODAL-->
+<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="title" id="ModalLongTitle">Vitale parameters</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [formGroup]="parameterForm">
+          <div *ngFor="let val of vitalParameters; let index = index" class="form-group row" >
+              <label *ngIf="val!=='Action'" class="col-sm-4 display-4" style="font-size: 30px;">{{val}}</label>
+              <input *ngIf="val!=='Action'" type="number" class="form-control ml-2" style="width: 80%;">
+              <a *ngIf="val!=='Action'" class="text-danger ml-3"><i class="fa fa-times fa-2x"></i></a>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" (click)="submitRow()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

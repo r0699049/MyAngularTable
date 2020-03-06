@@ -1,0 +1,60 @@
+select option { 
+    font-size: 120% !important;
+}
+
+.table-scroll {
+    position: relative;
+    width:100%;
+    z-index: 1;
+    margin: auto;
+    overflow: auto;
+    height: auto;
+  }
+  .table-scroll table {
+    width: 100%;
+    min-width: 1280px;
+    margin: auto;
+  
+  }
+  .table-wrap {
+    position: relative;
+  }
+
+ .data-selected{
+     background-color: #cecccc !important;
+ } 
+
+ngb-pagination ::ng-deep ul > li:not(.active) > a {
+    background-color: #cecccc !important;
+    color: black !important;
+}
+
+ngb-pagination ::ng-deep ul > li.active > a {
+    background-color: #cecccc !important;
+    color: black !important;
+    
+    border-color:darken($color: #cecccc, $amount: 20) !important;
+}
+
+.myTable{
+    border: solid #cecccc 1px;
+  }
+
+.alert
+.alert {
+
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all !important;
+
+    display: block !important;
+}
+
+.pageCountLabel, 
+.pageCountSelect{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+

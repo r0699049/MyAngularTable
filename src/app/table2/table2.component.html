@@ -1,0 +1,77 @@
+<div class="container mt-4">
+    <div [formGroup]="addForm">
+        <span>
+            <a class="text-dark mr-2 mb-2 float-left"  (click)="onAddRow()"><i class="fa fa-file-medical fa-3x"></i></a>
+        </span>
+        
+        <span class="table-add float-left mb-2 mr-2">
+            <a class="text-dark mr-2" data-toggle="modal" data-target="#exampleModalLong"><i class="fa fa-file-medical-alt fa-3x"></i></a>
+        </span> 		
+		<table class="table table-bordered table-striped table-dark wrapper">
+			<thead>
+				<tr>
+                    <th *ngFor="let vp of vitalParameters" class="text-center">{{vp}}</th>
+                </tr>
+			</thead>
+			<tbody>
+            <tr *ngFor="let row of addForm.get('rows')?.controls;let index = index;">
+                <td>
+                    <input class="form-control" [formControl]="row.get('Hartritme')" min="0" type="number" name="Hartritme"
+                        (blur)="addRow(row, index)">
+                </td>
+                <td>
+                    <input class="form-control" [formControl]="row.get('Ademhalingsfrequentie')" min="0" type="number"
+                        name="Ademhalingsfrequentie" (blur)="addRow(row, index)">
+                </td>
+                <td>
+                    <input class="form-control" [formControl]="row.get('Bloeddruk')" min="0" type="number" name="Bloeddruk"
+                        (blur)="addRow(row, index)">
+                </td>
+                <td>
+                    <input class="form-control" [formControl]="row.get('Temperatuur')" min="0" type="number" name="Temperatuur"
+                        (blur)="addRow(row, index)">
+                </td>
+                <td>
+                    <input class="form-control" [formControl]="row.get('Pijn')" min="0" type="number" name="Pijn"
+                        (blur)="addRow(row, index)">
+                </td>
+                <td>
+                    <input class="form-control" [formControl]="row.get('Bewustzijn')" min="0" type="number" name="Bewustzijn"
+                        (blur)="addRow(row, index)">
+                </td>
+                <td class="text-center">
+                    <a (click)="onRemoveRow(index)"><i class="fa fa-times fa-2x"></i></a>
+                </td>
+            </tr>
+			</tbody>
+		</table>
+	</div>
+
+<pre>{{rows.value | json}}</pre>
+</div>
+
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="title" id="exampleModalLongTitle">Vitale parameters</h1>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" [formGroup]="parameterForm">
+            <div *ngFor="let val of vitalParameters; let index = index" class="form-group row" >
+
+                <label *ngIf="val!=='Action'" class="col-sm-4 display-4" style="font-size: 30px;">{{val}}</label>
+                <ng5-slider *ngIf="val!=='Action'" [(value)]="slidersettings[index].value" [options]="slidersettings[index].options" style="width: 80%;" class="ml-3 mb-3"></ng5-slider>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

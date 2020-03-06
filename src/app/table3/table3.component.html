@@ -1,0 +1,135 @@
+<!--my table-->
+<div class="mt-3 mb-5 container col-sm-10 col-md-12 col-lg-8">
+    <!-- Editable table -->
+    <span class="table-add float-right mb-3 mr-2">
+      <a class="text-dark mr-2" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-list fa-2x"></i></a>
+    </span>
+    <span class="float-left mb-3 mr-2">
+        <a class="text-danger" (click)="removeRow()"><i class="fa fa-times fa-2x"></i></a>
+    </span>
+    <span class="float-left mb-3 mr-1">
+        <a class="text-success mr-2" (click)="addRow()"><i class="fa fa-plus fa-2x" ></i></a>
+    </span>
+    <span class="float-left mb-3 mr-2">
+      <a class="text-dark mr-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cog fa-2x"></i></a>
+    </span>
+    <div class="collapse float-left mb-2 form-group row" id="collapseExample">
+        <label class="display-4 col-sm-9" style="font-size: 17px;vertical-align: middle;">Records per pagina: </label>
+        <select class="custom-select col-sm-3" style="vertical-align: middle;" [(ngModel)]="pageSize">
+          <option hidden ng-selected="pageSize" >{{pageSize}}</option>
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="15">15</option>
+        </select>
+    </div>
+
+      <div id="table" class="table-scroll myTable">
+        <table class="table table-bordered table-striped text-center main-table" style="width: 100%;" id="crud_table">
+          <thead>
+            <tr>
+              <th *ngFor="let vp of vitalParameters; let i = index" aria-controls="tableSortExample" scope="col" 
+              [mdbTableSort]="vitalParameterData" [sortBy]="vitalParameters[i]" class="text-center">{{vp | titlecase}} <i class="fa fa-sort"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vpd of vitalParameterData | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index" (click)="selectRow(i)" [class.data-selected]="i == selectedRow">
+              <th class="pt-3-half" >
+                <p>{{vpd.Tijd | date:'dd/MM/yyyy'}}</p>
+                <p>{{vpd.Tijd | date:'H:m'}}</p>            
+              </th>
+              <td class="pt-3-half">
+                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Hartritme" (change)="saveChanges()">
+                  <option hidden ng-selected="vpd.Hartritme" >{{vpd.Hartritme}}</option>
+                  <option [value]="j" *ngFor="let j of HRRange">{{j}}</option>
+                </select>
+              </td>
+              <td class="pt-3-half">
+                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Ademhalingsfrequentie" (change)="saveChanges()">
+                    <option hidden ng-selected="vpd.Ademhalingsfrequentie">{{vpd.Ademhalingsfrequentie}}</option>
+                    <option [value]="j" *ngFor="let j of AFRange">{{j}}</option>
+                </select></td>
+              <td class="pt-3-half">
+                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Bloeddruk" (change)="saveChanges()">
+                    <option hidden ng-selected="vpd.Bloeddruk">{{vpd.Bloeddruk}}</option>
+                    <option [value]="j" *ngFor="let j of BDRange">{{j}}</option>
+                </select>
+              </td>
+              <td class="pt-3-half">
+                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Temperatuur" (change)="saveChanges()">
+                    <option hidden ng-selected="vpd.Temperatuur">{{vpd.Temperatuur}}</option>
+                    <option [value]="j" *ngFor="let j of TempRange">{{j}}</option>
+                </select>
+              </td>
+              <td class="pt-3-half">
+                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Pijn" (change)="saveChanges()">
+                    <option hidden ng-selected="vpd.Pijn">{{vpd.Pijn}}</option>
+                    <option [value]="j" *ngFor="let j of PijnRange">{{j}}</option>
+                </select>
+              </td>
+              <td class="pt-3-half">
+                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Bewustzijn" (change)="saveChanges()">
+                    <option hidden ng-selected="vpd.Bewustzijn">{{vpd.Bewustzijn}}</option>
+                    <option [value]="j" *ngFor="let j of BewustzijnRange">{{j}}</option>
+                </select>
+              </td>
+            </tr>
+            
+            <tr class="table-success">
+              <th><span><a class="text-success mr-2" (click)="addRow()"><i class="fa fa-plus fa-2x" ></i></a></span></th>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Hartritme">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of HRRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Ademhalingsfrequentie">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of AFRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Bloeddruk" >
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of BDRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Temperatuur">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of TempRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Pijn">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of PijnRange">{{i}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="newRow.Bewustzijn">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of BewustzijnRange">{{i}}</option>
+                    </select>
+                </td>            
+            </tr>
+          </tbody>
+        </table>       
+      </div>
+      <div class="mt-2" style="text-align: center;">
+        <div class="text-dark" style="display:inline-block">
+            <ngb-pagination
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="vitalParameterData.length">
+          </ngb-pagination>
+        </div>       
+      </div>
+      
+</div>
+
+<!--ALERT-->
+<div class="container" style="width: 50%;" >
+    <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+</div>
+
