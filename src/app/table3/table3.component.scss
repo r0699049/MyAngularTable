@@ -1,5 +1,9 @@
+
 select option { 
     font-size: 120% !important;
+}
+#minimize{
+  display: none;
 }
 
 .table-scroll {
@@ -21,7 +25,8 @@ select option {
   }
 
  .data-selected{
-     background-color: #cecccc !important;
+    //  background-color: #cecccc !important;
+    background-color: #707070 !important;
  } 
 
 ngb-pagination ::ng-deep ul > li:not(.active) > a {
@@ -56,5 +61,154 @@ ngb-pagination ::ng-deep ul > li.active > a {
   display: inline-block;
   vertical-align: middle;
 }
+
+//modal
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+  border-top: solid #777 1px;
+  border-bottom: solid #777 1px; 
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  text-decoration: none;
+}
+
+a { 
+  color: white;
+} 
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
+
+.active{
+  background-color: #777;
+}
+
+    // /* Important part */
+    .modal-dialog{
+      overflow-y: initial !important
+  }
+  .modal-body{
+      height: 500px;
+      overflow-y: auto;
+  }  
+
+ //responsive table
+ @media (max-width: 769px) {
+  .table-wrap table,
+  .table-wrap thead,
+  .table-wrap tbody,
+  .table-wrap th,
+  .table-wrap td,
+  .table-wrap tr {
+    display: block;
+  }
+  .table-wrap thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .table-wrap td {
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    position: relative;
+    padding-left: 50%!important;
+    white-space: normal;
+    text-align: left;
+  }
+  .table-wrap td:before {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+    width: 45%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+  }
+  .table-wrap td:first-child {
+    padding-top: 17px;
+  }
+  .table-wrap td:last-child {
+    padding-bottom: 50px;
+  }
+  .table-wrap td:first-child:before {
+    top: 17px;
+  }
+  .table-wrap td:before {
+    content: attr(data-title);
+  }
+  .table tbody tr {
+    border-top: 1px solid #ddd;
+  }
+  .table tbody tr td {
+    border: none;
+  }
+  td.pt-3-half::before{
+    font-size: 25px;
+    margin-top: 18px;
+    padding-bottom: 5px;
+    border-bottom: solid #cecccc 1px;
+    margin-bottom: 20px;
+  }
+  td::before{
+    font-size: 20px;
+    margin-top: 18px;
+    padding-bottom: 5px;
+    border-bottom: solid #cecccc 1px;
+    margin-bottom: 20px;
+  }
+  td.pt-3-half{
+    font-size: 18px;
+    margin-top: 18px;
+    border-bottom: solid #cecccc 1px;
+    span{
+      font-size: 25px !important;
+      position: relative;
+      top: 10px;
+      border-bottom: solid #cecccc 1px;
+    }
+  }
+  th.pt-3-half{
+    padding:10px;
+    font-size: 20px;
+    padding-top: 20px;
+  }
+  #minimize{
+    display: inline;
+  }
+  
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height:5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+
+
 
 

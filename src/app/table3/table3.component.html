@@ -1,30 +1,38 @@
 <!--my table-->
-<div class="mt-3 mb-5 container col-sm-10 col-md-12 col-lg-8">
+<div class="mt-3 mb-5 container col-sm-12 col-md-12 col-lg-12">
     <!-- Editable table -->
-    <span class="table-add float-right mb-3 mr-2">
-      <a class="text-dark mr-2" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-list fa-2x"></i></a>
-    </span>
-    <span class="float-left mb-3 mr-2">
-        <a class="text-danger" (click)="removeRow()"><i class="fa fa-times fa-2x"></i></a>
-    </span>
-    <span class="float-left mb-3 mr-1">
-        <a class="text-success mr-2" (click)="addRow()"><i class="fa fa-plus fa-2x" ></i></a>
-    </span>
-    <span class="float-left mb-3 mr-2">
-      <a class="text-dark mr-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cog fa-2x"></i></a>
-    </span>
-    <div class="collapse float-left mb-2 form-group row" id="collapseExample">
-        <label class="display-4 col-sm-9" style="font-size: 17px;vertical-align: middle;">Records per pagina: </label>
-        <select class="custom-select col-sm-3" style="vertical-align: middle;" [(ngModel)]="pageSize">
-          <option hidden ng-selected="pageSize" >{{pageSize}}</option>
-          <option [value]="5">5</option>
-          <option [value]="10">10</option>
-          <option [value]="15">15</option>
-        </select>
+    <div class="pb-5">
+      <span class="table-add float-right mb-3 mr-2">
+        <a class="text-dark mr-2" data-toggle="modal" data-target="#mobileModal"><i class="fas fa-list fa-2x"></i></a>
+      </span>
+      <span class="float-left mb-3 mr-2">
+          <a class="text-danger" (click)="removeRow()"><i class="fa fa-times fa-2x"></i></a>
+      </span>
+      <span class="float-left mb-3 mr-1">
+          <a class="text-success mr-2" (click)="addRow()"><i class="fa fa-plus fa-2x" ></i></a>
+      </span>
+      <span class="float-left mb-3 mr-2">
+        <a class="text-dark mr-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-cog fa-2x"></i></a>
+      </span>
+      <div class="collapse float-left mb-2 form-group row" id="collapseExample">
+          <!-- <label class="display-4 col-sm-9" style="font-size: 17px;vertical-align: middle;">Records per pagina: </label> -->
+          <!-- <select class="custom-select col-sm-3" style="vertical-align: middle;" [(ngModel)]="pageSize">
+            <option hidden ng-selected="pageSize" >{{pageSize}}</option>
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="15">15</option>
+          </select> -->
+          <label class="display-4 col" style="font-size: 17px;vertical-align: middle;">Datum record: </label>
+          <select class="custom-select col" style="vertical-align: middle;" [(ngModel)]="selectedDate" (change)="filterDate()">
+            <option hidden selected ></option>
+            <option [value]="date" *ngFor="let date of loggedDates">{{date}}</option>  
+          </select>
+      </div>
     </div>
+    
 
-      <div id="table" class="table-scroll myTable">
-        <table class="table table-bordered table-striped text-center main-table" style="width: 100%;" id="crud_table">
+      <div id="table" class="no-more-tables table-wrap">
+        <table class="table table-bordered table-striped text-center main-table table-dark table-responsive-stack" style="width: 100%;" id="tableOne" aria-role="table">
           <thead>
             <tr>
               <th *ngFor="let vp of vitalParameters; let i = index" aria-controls="tableSortExample" scope="col" 
@@ -32,49 +40,98 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let vpd of vitalParameterData | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index" (click)="selectRow(i)" [class.data-selected]="i == selectedRow">
-              <th class="pt-3-half" >
-                <p>{{vpd.Tijd | date:'dd/MM/yyyy'}}</p>
-                <p>{{vpd.Tijd | date:'H:m'}}</p>            
+            <tr class="table-gradient-dark" >
+              <th>
+                <span><a class="text-success mr-2" (click)="addRow()"><i class="fa fa-plus fa-2x" ></i></a></span>
+                <span id="minimize"><a class="text-light mr-2 float-right" style="opacity: 0.5;" (click)="collapsed2=!collapsed2; InitResponsiveTable();"><i class="fa fa-compress-alt fa-2x"></i></a></span>
               </th>
-              <td class="pt-3-half">
-                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Hartritme" (change)="saveChanges()">
+                <td *ngIf="!collapsed2">
+                    <select class="custom-select" [(ngModel)]="newRow.Hartritme">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of HRRange">{{i}}</option>
+                    </select>
+                </td>
+                <td *ngIf="!collapsed2">
+                    <select class="custom-select" [(ngModel)]="newRow.Ademhalingsfrequentie">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of AFRange">{{i}}</option>
+                    </select>
+                </td>
+                <td *ngIf="!collapsed2">
+                    <select class="custom-select" [(ngModel)]="newRow.Bloeddruk" >
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of BDRange">{{i}}</option>
+                    </select>
+                </td>
+                <td *ngIf="!collapsed2">
+                    <select class="custom-select" [(ngModel)]="newRow.Temperatuur">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of TempRange">{{i}}</option>
+                    </select>
+                </td>
+                <td *ngIf="!collapsed2">
+                    <select class="custom-select" [(ngModel)]="newRow.Pijn">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of PijnRange">{{i}}</option>
+                    </select>
+                </td>
+                <td *ngIf="!collapsed2">
+                    <select class="custom-select" [(ngModel)]="newRow.Bewustzijn">
+                        <option selected disabled></option>
+                        <option [ngValue]="i" *ngFor="let i of BewustzijnRange">{{i}}</option>
+                    </select>
+                </td>            
+            </tr>
+            <tr *ngFor="let vpd of vitalParameterData; let i = index" (click)="selectRow(i)" [class.data-selected]="i == selectedRow">
+              <th class="pt-3-half" >            
+                  <p><span (click)="editRow(i)" *ngIf="vpd.Editable && i != editableIndex" class="float-left text-light" style="font-size: 20px;"><i class="fa fa-pen"></i></span><span (click)="editRow(i); saveChanges()" *ngIf="vpd.Editable && i == editableIndex" class="float-left text-light" style="font-size: 25px;"><i class="fa fa-save"></i></span> {{vpd.Tijd | date:'dd/MM/yyyy'}}</p>
+                  <p>{{vpd.Tijd | date:'H:m'}}</p>                                      
+              </th>
+              <td class="pt-3-half" >
+                <select *ngIf="i == editableIndex" class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Hartritme">
                   <option hidden ng-selected="vpd.Hartritme" >{{vpd.Hartritme}}</option>
                   <option [value]="j" *ngFor="let j of HRRange">{{j}}</option>
                 </select>
+                <span *ngIf="i != editableIndex" class="display-4" style="font-size: 20px;">{{vpd.Hartritme}}</span>
               </td>
               <td class="pt-3-half">
-                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Ademhalingsfrequentie" (change)="saveChanges()">
+                <select *ngIf="i == editableIndex" class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Ademhalingsfrequentie">
                     <option hidden ng-selected="vpd.Ademhalingsfrequentie">{{vpd.Ademhalingsfrequentie}}</option>
                     <option [value]="j" *ngFor="let j of AFRange">{{j}}</option>
-                </select></td>
+                </select>
+                <span *ngIf="i != editableIndex" class="display-4" style="font-size: 20px;">{{vpd.Ademhalingsfrequentie}}</span>
+              </td>
               <td class="pt-3-half">
-                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Bloeddruk" (change)="saveChanges()">
+                <select *ngIf="i == editableIndex" class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Bloeddruk">
                     <option hidden ng-selected="vpd.Bloeddruk">{{vpd.Bloeddruk}}</option>
                     <option [value]="j" *ngFor="let j of BDRange">{{j}}</option>
                 </select>
+                <span *ngIf="i != editableIndex" class="display-4" style="font-size: 20px;">{{vpd.Bloeddruk}}</span>
               </td>
               <td class="pt-3-half">
-                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Temperatuur" (change)="saveChanges()">
+                <select *ngIf="i == editableIndex" class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Temperatuur">
                     <option hidden ng-selected="vpd.Temperatuur">{{vpd.Temperatuur}}</option>
                     <option [value]="j" *ngFor="let j of TempRange">{{j}}</option>
                 </select>
+                <span *ngIf="i != editableIndex" class="display-4" style="font-size: 20px;">{{vpd.Temperatuur}}</span>
               </td>
               <td class="pt-3-half">
-                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Pijn" (change)="saveChanges()">
+                <select *ngIf="i == editableIndex" class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Pijn">
                     <option hidden ng-selected="vpd.Pijn">{{vpd.Pijn}}</option>
                     <option [value]="j" *ngFor="let j of PijnRange">{{j}}</option>
                 </select>
+                <span *ngIf="i != editableIndex" class="display-4" style="font-size: 20px;">{{vpd.Pijn}}</span>
               </td>
               <td class="pt-3-half">
-                <select class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Bewustzijn" (change)="saveChanges()">
+                <select *ngIf="i == editableIndex" class="custom-select" (click)="reSelectRow($event)" [(ngModel)]="vpd.Bewustzijn">
                     <option hidden ng-selected="vpd.Bewustzijn">{{vpd.Bewustzijn}}</option>
                     <option [value]="j" *ngFor="let j of BewustzijnRange">{{j}}</option>
                 </select>
+                <span *ngIf="i != editableIndex" class="display-4" style="font-size: 20px;">{{vpd.Bewustzijn}}</span>
               </td>
             </tr>
             
-            <tr class="table-success">
+            <!-- <tr class="table-success">
               <th><span><a class="text-success mr-2" (click)="addRow()"><i class="fa fa-plus fa-2x" ></i></a></span></th>
                 <td>
                     <select class="custom-select" [(ngModel)]="newRow.Hartritme">
@@ -112,11 +169,11 @@
                         <option [ngValue]="i" *ngFor="let i of BewustzijnRange">{{i}}</option>
                     </select>
                 </td>            
-            </tr>
+            </tr> -->
           </tbody>
         </table>       
       </div>
-      <div class="mt-2" style="text-align: center;">
+      <!-- <div class="mt-2" style="text-align: center;">
         <div class="text-dark" style="display:inline-block">
             <ngb-pagination
             [(page)]="page"
@@ -124,8 +181,7 @@
             [collectionSize]="vitalParameterData.length">
           </ngb-pagination>
         </div>       
-      </div>
-      
+      </div>      -->
 </div>
 
 <!--ALERT-->
@@ -133,3 +189,52 @@
     <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
 </div>
 
+
+<div class="modal fade" id="mobileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-dark">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: white;">Add vital signs</h1>
+        <button style="color: white;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body pt-0 pb-2" id="myModal">
+        <div *ngFor="let vpd of vitalParameters; let index = index" class="mb-4">
+          <label *ngIf="vpd != 'Tijd'" class="display-4" style="font-size: 25px; color:white">{{vpd}} </label>
+          <div  *ngIf="vpd != 'Tijd'" class="scrollmenu bg-dark" style="width: auto; font-size: 25px;" id="scrollmenu"> 
+            <a class="btn scrollValue" *ngFor="let val of HRRange" id="{{vpd+val}}" (click)="addValue(val, vpd, index, $event)">{{val}}</a>          
+          </div>
+        </div>
+
+        <!-- <div class="mb-4">
+          <label class="display-4" style="font-size: 25px; color:white">Hartslag: </label>          
+          <input type="range" min="0" max="100" step="10" style="width:100%">                  
+        </div> -->
+       <!-- <div class="mb-4">
+          <label class="display-4" style="font-size: 25px; color:white">Bloeddruk (boven): </label>
+          <div class="scrollmenu bg-dark" style="width: auto; " #div2> 
+            <a *ngFor="let val of BDRange" id="{{val}}">{{val}}</a>        
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="display-4" style="font-size: 25px; color:white">Bloeddruk (onder): </label>
+          <div class="scrollmenu bg-dark" style="width: auto; " #div3> 
+            <a *ngFor="let val of BDRange" id="{{val}}">{{val}}</a>         
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="display-4" style="font-size: 25px; color:white">Ademhalingsfrequentie: </label>
+          <div class="scrollmenu bg-dark" style="width: auto; " #div4> 
+            <a *ngFor="let val of AFRange" id="{{val}}" [formControl]="">{{val}}</a>         
+          </div>
+        </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="submitModal()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { Table3Component } from './table3/table3.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     NgbModule,
     MDBBootstrapModule.forRoot()
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
